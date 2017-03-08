@@ -60,10 +60,10 @@ next() {
 
 # Homebrew Script for OSX
 echo "Installing brew..."
-#/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
 
-echo "***********Install dev stuff***********"
+echo "*********** Install dev stuff ***********"
 
 step "install node"
 try brew install node
@@ -82,15 +82,28 @@ try brew cask install atom
 next
 
 step "install docker"
-try brew cask install docker
+try brew install docker
 next
 
 step "install docker-compose"
-try brew cask install docker-compose
+try brew install docker-compose
 next
 
+step "install bash-git-prompt"
+try brew install bash-git-prompt
+next
+
+step "install maven"
+try brew install maven
+next
+
+step "install maven-completion"
+try brew install maven-completion
+next
+
+
 #Communication Apps
-echo "***********Communication stuff***********"
+echo "*********** Communication stuff ***********"
 step "install slack"
 try brew cask install slack
 next
@@ -103,19 +116,18 @@ step "install lync"
 try brew cask install microsfot-lync
 next
 
-echo "***********Web stuff***********"
+echo "*********** Web stuff ***********"
 step "install google-chrome"
 try brew cask install google-chrome
 next
 
 step "install firefox"
-try brew cask firefox
+try brew cask install firefox
 next
-#
-# brew cask install skype
-# brew cask install microsoft-lync
-#
-# #Web Tools
-# brew cask install google-chrome
-# brew cask install firefox
-#
+
+step "install firefox"
+try brew cask install firefox
+next
+
+
+echo 'export PATH=/usr/local/bin:$PATH' >>~/.bash_profile
