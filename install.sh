@@ -1,4 +1,4 @@
-!/bin/bash
+#!/bin/bash
 
 #. /etc/init.d/functions
 
@@ -70,6 +70,15 @@ read answer
 if echo "$answer" | grep -iq "^y" ;then
 
   echo "*********** Install dev stuff ***********"
+
+  step "install java"
+  try brew cask install java java6 java7 java8
+  next
+
+  step "Install JCE"
+  try brew cask install jce-unlimited-strength-policy
+  next
+
   step "install node"
   try brew install node
   next
@@ -128,7 +137,13 @@ if echo "$answer" | grep -iq "^y" ;then
   step "install docker-compose"
   try brew install docker-compose
   next
+
+  step "install soapui"
+  try brew cask install soapui
+  next
 fi
+
+
 
 
 printf "\nDo you wish to install this Communication packages?(y/n)? "
@@ -187,6 +202,11 @@ fi
 printf "\nDo you wish to add aliases to bash file?(y/n)? "
 read answer
 if echo "$answer" | grep -iq "^y" ;then
+  echo 'if [ -f "$(brew --prefix)/opt/bash-git-prompt/share/gitprompt.sh" ]; then'  >>~/.bash_profile
+  echo '  __GIT_PROMPT_DIR=$(brew --prefix)/opt/bash-git-prompt/share'  >>~/.bash_profile
+  echo '  source "$(brew --prefix)/opt/bash-git-prompt/share/gitprompt.sh"'  >>~/.bash_profile
+  echo 'fi'  >>~/.bash_profile
+  echo ''
   echo '#[Alias]'  >>~/.bash_profile
   echo 'alias ll="ls -al"' >>~/.bash_profile
   echo 'alias gs="git status"'  >>~/.bash_profile
@@ -194,10 +214,13 @@ if echo "$answer" | grep -iq "^y" ;then
   echo 'alias gwipe="git clean -fdx"'  >>~/.bash_profile
   echo 'alias mica="mvn clean install"'  >>~/.bash_profile
   echo 'alias micant="mvn clean install -DskipTests"'  >>~/.bash_profile
+  echo 'alias gipo="git pull origin master"'  >>~/.bash_profile
+  echo 'alias gido="git pull origin `git rev-parse --abbrev-ref HEAD`"'  >>~/.bash_profile
 
   #shortcuts aliases
-  printf "\nWhat is your code workspace for 'workspace' command? "
+  printf "\nWhat is your code workspace for 'code' shortcut? "
   read -e -p ">" workspace
-  echo "export workspace=$workspace"  >>~/.bash_profile
+  echo "export code=$workspace"  >>~/.bash_profile
+  echo "alias code='cd $workspace'"  >>~/.bash_profile
   source ~/.bash_profile
 fi
